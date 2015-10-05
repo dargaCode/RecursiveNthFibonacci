@@ -13,9 +13,16 @@
 // constants
 #define MAX_FIB 75
 
+// global variables
+int recursion_count = 0;
+int memorized_count = 0;
+
 // prototypes
 bool is_input_valid(int argc, string argv[]);
-long long get_nth_fib(int n);
+long long get_nth_fib(int n, long long memorized[]);
+void memorize_nth(long long memorized[], int n, long long fib);
+bool is_nth_memorized(int n);
+long long get_nth_memorized(long long memorized[], int n);
 
 int main(int argc, string argv[])
 {
@@ -31,7 +38,8 @@ int main(int argc, string argv[])
     }
     // good input
     int n = atoi(argv[1]);
-    long long output = get_nth_fib(n);
+    long long memorized[n];
+    long long output = get_nth_fib(n, memorized);
     printf("Fibonacci Number #%i = %lli \n", n, output);
 
     // success
@@ -54,23 +62,64 @@ bool is_input_valid(int argc, string argv[])
     return true;
 }
 
-int recursion_count = 0;
+void memorize_nth(long long memorized[], int n, long long fib)
+{
+    memorized[n] = fib;
+    memorized_count++;
+}
 
-long long get_nth_fib(int n)
+bool is_nth_memorized(int n)
+{
+    return memorized_count >= n;
+}
+
+long long get_nth_memorized(long long memorized[], int n)
+{
+    return memorized[n];
+}
+
+long long get_nth_fib(int n, long long memorized[])
 {
     recursion_count++;
 
     // base case for 0 and 1
+    // TODO nth fibonacci is actually n+1 being output
+    // need to correct off by one and count from 1, not 0
     if (n == 0 || n == 1)
     {
+        printf("Fib #%i: %lld \n", n, (long long)n);
+        printf("Recursive calls: %i\n", recursion_count);
+
+        memorize_nth(memorized, n, n);
         return n;
     }
     // keep recursing
     else
     {
-        long long result = get_nth_fib(n - 1) + get_nth_fib(n - 2);
-        printf("Fib #%i: %lld \n", n, result);
-        printf("Recursive calls: %i\n", recursion_count);
-        return result;
+        // value is already memorized
+        if (is_nth_memorized(n))
+        {
+            long long result = get_nth_memorized(memorized, n);
+            printf("Fib #%i: %lld \n", n, result);
+            printf("Recursive calls: %i\n", recursion_count);
+            return result;
+
+        }
+        // value still needs to be memorized
+        else
+        {
+            // go deeper
+            long long prev_a = get_nth_fib(n - 1, memorized);
+            long long prev_b = get_nth_fib(n - 2, memorized);
+            long long result = prev_a + prev_b;
+            printf("Fib #%i: %lld \n", n, result);
+            printf("Recursive calls: %i\n", recursion_count);
+
+            // memorize result
+            memorize_nth(memorized, n, result);
+
+            return result;
+        }
     }
 }
+
