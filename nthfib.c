@@ -15,6 +15,7 @@
 
 // prototypes
 bool is_input_valid(int argc, string argv[]);
+long long get_nth_fib(int n);
 
 int main(int argc, string argv[])
 {
@@ -28,6 +29,10 @@ int main(int argc, string argv[])
         // failure
         return 1;
     }
+    // good input
+    int n = atoi(argv[1]);
+    long long output = get_nth_fib(n);
+    printf("Fibonacci Number #%i = %lli \n", n, output);
 
     // success
     return 0;
@@ -40,11 +45,16 @@ bool is_input_valid(int argc, string argv[])
     {
         return false;
     }
-    int nth_fib = atoi(argv[1]);
-    // fib number argument out of range
-    if (nth_fib < 1 || nth_fib > MAX_FIB)
+    int n = atoi(argv[1]);
+    // nth fib argument out of range
+    if (n < 1 || n > MAX_FIB)
     {
         return false;
     }
     return true;
+}
+
+long long get_nth_fib(int n)
+{
+    return 1;
 }
