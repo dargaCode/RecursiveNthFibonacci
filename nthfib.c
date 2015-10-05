@@ -85,13 +85,14 @@ long long get_nth_fib(int n, long long memorized[])
     // base case for 0 and 1
     // TODO nth fibonacci is actually n+1 being output
     // need to correct off by one and count from 1, not 0
-    if (n == 0 || n == 1)
+    if (n == 1 || n == 2)
     {
-        printf("Fib #%i: %lld \n", n, (long long)n);
+        long long result = n - 1;
+        printf("Fib #%i: %lld \n", n, result);
         printf("Recursive calls: %i\n", recursion_count);
 
-        memorize_nth(memorized, n, n);
-        return n;
+        memorize_nth(memorized, n, result);
+        return result;
     }
     // keep recursing
     else
