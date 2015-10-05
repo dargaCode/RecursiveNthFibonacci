@@ -54,7 +54,23 @@ bool is_input_valid(int argc, string argv[])
     return true;
 }
 
+int recursion_count = 0;
+
 long long get_nth_fib(int n)
 {
-    return 1;
+    recursion_count++;
+
+    // base case for 0 and 1
+    if (n == 0 || n == 1)
+    {
+        return n;
+    }
+    // keep recursing
+    else
+    {
+        long long result = get_nth_fib(n - 1) + get_nth_fib(n - 2);
+        printf("Fib #%i: %lld \n", n, result);
+        printf("Recursive calls: %i\n", recursion_count);
+        return result;
+    }
 }
