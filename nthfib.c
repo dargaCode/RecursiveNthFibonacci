@@ -15,14 +15,14 @@
 
 // global variables
 int recursion_count = 0;
-int memorized_count = 0;
+int memoized_count = 0;
 
 // prototypes
 bool is_input_valid(int argc, string argv[]);
-long long get_nth_fib(int n, long long memorized[]);
-void memorize_nth(long long memorized[], int n, long long fib);
-bool is_nth_memorized(int n);
-long long get_nth_memorized(long long memorized[], int n);
+long long get_nth_fib(int n, long long memoized[]);
+void memoize_nth(long long memoized[], int n, long long fib);
+bool is_nth_memoized(int n);
+long long get_nth_memoized(long long memoized[], int n);
 
 int main(int argc, string argv[])
 {
@@ -39,8 +39,8 @@ int main(int argc, string argv[])
     // good input
     int n = atoi(argv[1]);
     // add one extra index to more easily count from 1
-    long long memorized[n + 1];
-    long long output = get_nth_fib(n, memorized);
+    long long memoized[n + 1];
+    long long output = get_nth_fib(n, memoized);
     printf("Fibonacci Number #%i = %lli \n", n, output);
 
     // success
@@ -63,47 +63,47 @@ bool is_input_valid(int argc, string argv[])
     return true;
 }
 
-void memorize_nth(long long memorized[], int n, long long fib)
+void memoize_nth(long long memoized[], int n, long long fib)
 {
-    memorized[n] = fib;
-    memorized_count++;
+    memoized[n] = fib;
+    memoized_count++;
 }
 
-bool is_nth_memorized(int n)
+bool is_nth_memoized(int n)
 {
     // adding one since counting from 1, not 0
-    bool result = memorized_count >= n + 1;
+    bool result = memoized_count >= n + 1;
     if (result)
     {
         printf(COLOR_GREEN);
-        printf("Fib #%i already memorized!\n", n);
+        printf("Fib #%i already memoized!\n", n);
     }
     else
     {
         printf(COLOR_RED);
-        printf("Fib #%i not memorized.\n", n);
+        printf("Fib #%i not memoized.\n", n);
     }
     printf(COLOR_RESET);
     return result;
 }
 
-long long get_nth_memorized(long long memorized[], int n)
+long long get_nth_memoized(long long memoized[], int n)
 {
-    return memorized[n];
+    return memoized[n];
 }
 
-long long get_nth_fib(int n, long long memorized[])
+long long get_nth_fib(int n, long long memoized[])
 {
     long long result;
     recursion_count++;
     printf("Recursive calls: %i\n", recursion_count);
 
-    // already memorized
-    if (is_nth_memorized(n))
+    // already memoized
+    if (is_nth_memoized(n))
     {
-        result = get_nth_memorized(memorized, n);
+        result = get_nth_memoized(memoized, n);
     }
-    // needs to be memorized
+    // needs to be memoized
     else
     {
         if (n == 1 || n == 2)
@@ -113,12 +113,12 @@ long long get_nth_fib(int n, long long memorized[])
         // keep recursing
         else
         {
-            long long prev_a = get_nth_fib(n - 1, memorized);
-            long long prev_b = get_nth_fib(n - 2, memorized);
+            long long prev_a = get_nth_fib(n - 1, memoized);
+            long long prev_b = get_nth_fib(n - 2, memoized);
             result = prev_a + prev_b;
         }
-        // memorize result
-        memorize_nth(memorized, n, result);
+        // memoize result
+        memoize_nth(memoized, n, result);
     }
     printf("Fib #%i: %lld \n", n, result);
     return result;
