@@ -13,4 +13,4 @@ I take 2n rather than n recursive calls, just because I think it makes the code 
 
 Fun stuff! It’s easy, but makes me feel smart, which is a nice combo. 
 
-<img src ="http://41.media.tumblr.com/46b2ea1406ead9c1c7f0d1996d9af2ca/tumblr_inline_nvrxexjs4e1tvc5hi_1280.png" height="400">
+<img src ="http://41.media.tumblr.com/46b2ea1406ead9c1c7f0d1996d9af2ca/tumblr_inline_nvrxexjs4e1tvc5hi_1280.png" width="650">
